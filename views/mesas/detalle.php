@@ -1,24 +1,34 @@
 <div class="container mt-4">
     <h2 class="text-center mb-4">Detalles de <?= htmlspecialchars($mesa['nombre_mesa']) ?></h2>
     <div class="row">
-        <!-- Productos consumidos (lado izquierdo) -->
-        <div class="col-md-6">
-            <h4 class="text-center">Productos Consumidos</h4>
-            <?php if (!empty($productosConsumidos)): ?>
-                <ul class="list-group">
-                    <?php foreach ($productosConsumidos as $item): ?>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <?= htmlspecialchars($item['nombre_producto']) ?> 
-                            <span><?= $item['cantidad'] ?> x $<?= number_format($item['precio'], 2) ?></span>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php else: ?>
-                <p class="text-center text-muted">Nada consumido aún.</p>
-            <?php endif; ?>
-        </div>
+       <!-- Productos consumidos -->
+<div class="col-md-6">
+    <h4 class="text-center">Productos Consumidos</h4>
+    <?php if (!empty($productosConsumidos)): ?>
+        <ul class="list-group">
+            <?php 
+                $totalConsumido = 0;
+                foreach ($productosConsumidos as $item): 
+                    $subtotal = $item['cantidad'] * $item['precio'];
+                    $totalConsumido += $subtotal;
+            ?>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <?= htmlspecialchars($item['nombre_producto']) ?> 
+                    <span><?= $item['cantidad'] ?> x $<?= number_format($item['precio'], 2) ?></span>
+                </li>
+            <?php endforeach; ?>
+            <!-- Total -->
+            <li class="list-group-item d-flex justify-content-between align-items-center fw-bold">
+                Total consumido:
+                <span>$<?= number_format($totalConsumido, 2) ?></span>
+            </li>
+        </ul>
+    <?php else: ?>
+        <p class="text-center text-muted">Nada consumido aún.</p>
+    <?php endif; ?>
+</div>
 
-        <!-- Productos disponibles y carrito temporal (lado derecho) -->
+        <!-- Productos disponibles y carrito -->
         <div class="col-md-6">
             <h4 class="text-center">Productos Disponibles</h4>
             <ul class="list-group" id="productos-disponibles">
@@ -27,7 +37,7 @@
                         data-id="<?= $producto['id_producto'] ?>" 
                         data-nombre="<?= htmlspecialchars($producto['nombre_producto']) ?>" 
                         data-precio="<?= $producto['precio'] ?>"
-                        data-stock="<?= $producto['stock'] ?>"> <!-- Asumiendo que tienes 'stock' -->
+                        data-stock="<?= $producto['stock'] ?>">
                         <div>
                             <?= htmlspecialchars($producto['nombre_producto']) ?>
                         </div>
@@ -42,19 +52,60 @@
             </ul>
 
             <h4 class="text-center mt-4">Carrito Temporal</h4>
-            <ul class="list-group" id="carrito-temporal">
+            <ul class="list-group mb-3" id="carrito-temporal">
                 <li class="list-group-item text-center text-muted">No hay productos agregados</li>
             </ul>
+
+            <!-- Botón de añadir al consumo -->
+            <form action="/mesas/agregarConsumo" method="POST" id="form-carrito">
+                <input type="hidden" name="id_mesa" value="<?= htmlspecialchars($mesa['id_mesa']) ?>">
+                <input type="hidden" name="carrito_json" id="carrito-json">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Añadir al consumo</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <div class="text-center mt-4">
-        <form action="/mesas/cerrarCuenta" method="POST">
-            <input type="hidden" name="id_mesa" value="<?= htmlspecialchars($mesa['id_mesa']) ?>">
-            <button class="btn btn-danger">Cerrar Cuenta</button>
-        </form>
+<div class="text-center mt-4">
+    <form id="form-cerrar-cuenta">
+        <input type="hidden" name="id_mesa" value="<?= htmlspecialchars($mesa['id_mesa']) ?>">
+        <button type="submit" class="btn btn-danger" id="btn-cerrar-cuenta">Cerrar Cuenta</button>
+    </form>
+
+    <div id="mensaje-exito" class="mt-3" style="display:none;">
+        <span class="text-success fs-1">✓</span>
+        <p class="text-success">Cuenta cerrada exitosamente</p>
     </div>
 </div>
+
+<script>
+document.getElementById('form-cerrar-cuenta').addEventListener('submit', function(e) {
+    e.preventDefault(); // Evita recarga
+
+    const form = e.target;
+    const formData = new FormData(form);
+    const boton = document.getElementById('btn-cerrar-cuenta');
+    boton.disabled = true;
+
+    fetch('/mesas/cerrarCuenta', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => {
+        if (res.ok) {
+            document.getElementById('mensaje-exito').style.display = 'block';
+        } else {
+            alert('Error al cerrar la cuenta');
+            boton.disabled = false;
+        }
+    })
+    .catch(() => {
+        alert('Error de red al cerrar la cuenta');
+        boton.disabled = false;
+    });
+});
+</script>
 
 <script>
     const carrito = {};
@@ -62,10 +113,11 @@
     function actualizarCarrito() {
         const carritoLista = document.getElementById('carrito-temporal');
         carritoLista.innerHTML = '';
-
         const ids = Object.keys(carrito);
+
         if (ids.length === 0) {
             carritoLista.innerHTML = '<li class="list-group-item text-center text-muted">No hay productos agregados</li>';
+            document.getElementById('carrito-json').value = '';
             return;
         }
 
@@ -80,6 +132,9 @@
             li.appendChild(span);
             carritoLista.appendChild(li);
         });
+
+        // Guardamos el carrito en JSON para enviarlo por el formulario
+        document.getElementById('carrito-json').value = JSON.stringify(carrito);
     }
 
     document.querySelectorAll('.btn-agregar').forEach(btn => {
@@ -94,7 +149,6 @@
                 carrito[id] = {nombre: nombre, precio: precio, cantidad: 0};
             }
 
-            // Solo agregar si la cantidad no supera el stock disponible
             if (carrito[id].cantidad < stock) {
                 carrito[id].cantidad++;
                 actualizarCarrito();

@@ -1,0 +1,106 @@
+:root {
+  --bgMain: #f1f1f1; /* fondo claro */
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bgMain);
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #000;
+  overflow-x: hidden;
+}
+
+/* NavBar */
+.logo img {
+  width: 200px;   /* logo más grande */
+  height: 120px;
+  /* Si quieres que sea circular, podrías añadir border-radius aquí */
+}
+
+/* Ajustes para el logo si usas la clase .logo directamente */
+.logo {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  /* Si quieres borde y sombra como en la versión oscura, aquí lo pones */
+  /* border-radius: 50%; */
+  /* border: 5px solid #fff; */
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); */
+  z-index: 10;
+}
+
+.main-content {
+  margin-top: 10px;
+  min-height: 72vh;
+}
+
+/* El resto de estilos para tarjetas, botones, etc. */
+
+.card--category {
+  display: flex;
+  place-content: center;
+  height: 180px;
+}
+
+.card--product {
+  overflow: hidden;
+  width: 18rem;
+  margin: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: box-shadow 300ms ease-in;
+}
+
+.card--product:hover {
+  box-shadow: 1px 1px 10px 2px rgba(0, 0, 0, 0.1);
+}
+
+.card--product img:hover {
+  transition: transform 0.3s ease-in;
+  transform: scale(1.1);
+}
+
+.card--product .card-img-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card--product .card-body {
+  padding: 15px;
+  text-align: center;
+}
+
+.card--product .card-title {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.card--product .card-text {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Footer */
+footer {
+  padding: 20px 0;
+  margin-bottom: 0;
+}
+
+footer .text-muted {
+  color: #6c757d;
+}
+
+footer h5 {
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+footer .btn {
+  margin-top: 10px;
+}
+
+/* Otros estilos (categorías, botones, rating, etc.) como los tenías */
+

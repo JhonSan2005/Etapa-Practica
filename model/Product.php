@@ -6,14 +6,14 @@ class Product extends Conexion{
    
     
 
-    public static function agregarproductos($nombre_producto, $precio, $impuesto, $stock, $id_categoria, $descripcion, $imagen_url) {
-        $conexion = self::conectar();
-        $consulta = $conexion->prepare("INSERT INTO productos (nombre_producto, precio, impuesto, stock, id_categoria, descripcion, imagen_url) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $consulta->bind_param('ssddiss', $nombre_producto, $precio, $impuesto, $stock, $id_categoria, $descripcion, $imagen_url);
-        $resultado = $consulta->execute();
+ public static function agregarproductos($nombre_producto, $precio,  $stock, $id_categoria, $imagen_url) {
+    $conexion = self::conectar();
+    $consulta = $conexion->prepare("INSERT INTO productos (nombre_producto, precio, stock, id_categoria, imagen_url) VALUES (?, ?, ?, ?, ?)");
+    $consulta->bind_param("ssdis", $nombre_producto, $precio, $stock, $id_categoria, $imagen_url);
+    $resultado = $consulta->execute();
 
-        return $resultado;
-    }
+    return $resultado;
+}
 
 
 

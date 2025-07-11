@@ -18,4 +18,5 @@ class admin extends Conexion {
             return false; // Error en la actualización
         }
     }
+
 }

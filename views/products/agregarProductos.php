@@ -13,10 +13,7 @@
                 <label for="product_price" class="form-label">Precio</label>
                 <input type="number" id="product_price" name="precio" class="form-control" autocomplete="off" required>
             </div>
-            <div class="form-group mb-3">
-                <label for="product_tax" class="form-label">Impuesto</label>
-                <input type="number" id="product_tax" name="impuesto" class="form-control" autocomplete="off" required>
-            </div>
+         
             <div class="form-group mb-3">
                 <label for="product_stock" class="form-label">Stock</label>
                 <input type="number" id="product_stock" name="stock" class="form-control" autocomplete="off" required>
@@ -29,10 +26,6 @@
                         <option value="<?php echo $categoria['id_categoria']; ?>"><?php echo $categoria['nombre_categoria']; ?></option>
                     <?php endforeach; ?>
                 </select>
-            </div>
-            <div class="form-group mb-3">
-                <label for="product_description" class="form-label">Descripción</label>
-                <textarea id="product_description" name="descripcion" class="form-control" rows="3" required></textarea>
             </div>
             <div class="form-group mb-3 d-flex flex-column">
                 <label for="product_image" class="form-label">Imagen</label>

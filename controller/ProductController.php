@@ -42,18 +42,15 @@ class ProductController
             // Guardamos en variables los datos del formulario para su posterior uso
             $nombre_producto = filter_input(INPUT_POST, 'nombre_producto', FILTER_SANITIZE_STRING);
             $precio = filter_input(INPUT_POST, 'precio', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-            $impuesto = filter_input(INPUT_POST, 'impuesto', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
             $stock = filter_input(INPUT_POST, 'stock', FILTER_SANITIZE_NUMBER_INT);
             $id_categoria = filter_input(INPUT_POST, 'id_categoria', FILTER_SANITIZE_NUMBER_INT);
-            $descripcion = filter_input(INPUT_POST, 'descripcion', FILTER_SANITIZE_STRING);
 
             // Creamos las validaciones
             $alertas->crearAlerta(!$nombre_producto, 'danger', 'El nombre no puede ir vacío');
             $alertas->crearAlerta(!$precio, 'danger', 'El precio no puede ir vacío');
-            $alertas->crearAlerta(!$impuesto, 'danger', 'El impuesto no puede ir vacío');
             $alertas->crearAlerta(!$stock, 'danger', 'El stock no puede ir vacío');
             $alertas->crearAlerta(!$id_categoria, 'danger', 'La categoría no puede ir vacía');
-            $alertas->crearAlerta(!$descripcion, 'danger', 'La descripción no puede ir vacía');
+          
 
             // Validar y procesar la imagen
             $imagen = $_FILES['imagen'] ?? null;
@@ -82,7 +79,7 @@ class ProductController
 
             // Validar que no hayan alertas antes de agregar el producto
             if (!$alertas->obtenerAlertas()) {
-                $resultado = Product::agregarproductos($nombre_producto, $precio, $impuesto, $stock, $id_categoria, $descripcion, $imagen_url);
+                $resultado = Product::agregarproductos($nombre_producto, $precio,  $stock, $id_categoria, $imagen_url);
                 if (!$resultado) {
                     return $alertas->crearAlerta(true, 'danger', 'Ha ocurrido un error, vuelve a intentarlo');
                 }

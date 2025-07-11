@@ -1,55 +1,134 @@
 <?php
-  require_once __DIR__ . '/../../helpers/functions.php';
-
-  $session_activa = isAuth();
+require_once __DIR__ . '/../../helpers/functions.php';
+$session_activa = isAuth();
 ?>
 
-<nav class="navbar navbar-expand-lg text-bg-danger">
-  <div class="container-fluid">
-    <a class="navbar-brand logo" href="/admin/dashboard">
-        <img src="/img/uploads/logol.png" alt="Logo Tienda">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<?php if ($session_activa): ?>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        <?php if( $session_activa ): ?>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+    }
 
-          <li class="nav-item">
-            <a class="nav-link link-light fw-medium" href="/admin/dashboard">Dashboard</a>
-          </li>
-          
-          <li class="nav-item">
-            <a class="nav-link link-light fw-medium" href="/admin/tablaUser">Tabla</a>
-          </li>
+    .admin-wrapper {
+      display: flex;
+      height: 100vh;
+    }
 
-          <li class="nav-item">
-            <a class="nav-link link-light fw-medium" href="/admin/products">Productos</a>
-          </li>
+    .sidebar {
+      width: 250px;
+      background-color: #1d2127;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      padding-top: 1rem;
+      z-index: 1000;
+    }
 
-          <li class="nav-item">
-            <a class="nav-link link-light fw-medium" href="/admin/categories">Categorias</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link link-light fw-medium" href="/admin/verHistorial">Historial</a>
-          </li>
+    .sidebar .logo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
 
-          <li class="nav-item dropdown">
-          <a class="nav-link link-light fw-medium dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Opciones
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/admin/adminPerfil">Perfil</a></li>
+    .sidebar .logo img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .sidebar a {
+      color: white;
+      padding: 0.8rem 1.5rem;
+      text-decoration: none;
+      display: block;
+      transition: background-color 0.2s ease;
+    }
+
+    .sidebar a:hover {
+      background-color: #2c3036;
+    }
+
+    .main-content {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #f9f9f9;
+    }
+
+    .topbar {
+      background-color: #003366;
+      color: white;
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .topbar .admin-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar .admin-profile img {
+      width: 35px;
+      height: 35px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .topbar .admin-profile span {
+      font-weight: 500;
+    }
+
+    /* Ajuste para que todo el contenido del main se expanda correctamente */
+    .contenido-principal {
+      width: 100%;
+      padding: 2rem;
+    }
+  </style>
+
+  <div class="admin-wrapper">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <a href="/admin/dashboard">
+          <img src="/img/uploads/logo.png" alt="Logo Tienda">
+        </a>
+      </div>
+
+      <a href="/admin/dashboard">🏠 Dashboard</a>
+      <a href="/admin/tablaUser">👥 Tabla</a>
+      <a href="/admin/graficas">📈 Graficas</a>
+      <a href="/admin/products">📦 Productos</a>
+      <a href="/admin/categories">🏷️ Categorías</a>
+      <!-- <a href="/admin/verHistorial">📜 Historial</a> -->
+      <a href="/admin/cuentasCerradas">🔒 Cuentas</a>
+      <a href="/admin/verMesasAdmin">🍽️ Mesas</a>
+      <a href="/admin/adminPerfil">⚙️ Perfil</a>
+      <a href="/close-session" style="color: red;">🚪 Cerrar sesión</a>
+    </aside>
+    
+
+    <!-- Contenido -->
+    <div class="main-content">
+      <div class="topbar">
+        <span class="fw-bold fs-5">Panel de Administración</span>
       
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/close-session">Cerrar Sesion</a></li>
-          </ul>
-        </li>
-        <?php endif; ?>
+      </div>
 
-      </ul>
-    </div>
-  </div>
-</nav>
+      <!-- Aquí inicia tu contenido principal -->
+      <div class="contenido-principal">
+<?php endif; ?>

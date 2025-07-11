@@ -22,9 +22,9 @@
           <li class="nav-item">
             <a class="nav-link text-light fw-medium" href="/products">Inventario</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link text-light fw-medium" href="/contabilidad">Abministracción</a>
-          </li>
+          </li> -->
 
           <li class="nav-item dropdown">
             <a class="nav-link text-light fw-medium dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -33,8 +33,8 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="/profile">Ver Perfil</a></li>
-              <li><a class="dropdown-item" href="/misCompras">Mis Compras</a></li>
-              <li><a class="dropdown-item" href="/devolucion">Devoluciones</a></li>
+              <!-- <li><a class="dropdown-item" href="/misCompras">Mis Compras</a></li>
+              <li><a class="dropdown-item" href="/devolucion">Devoluciones</a></li> -->
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item text-danger" href="/close-session">Cerrar Sesión</a></li>
             </ul>

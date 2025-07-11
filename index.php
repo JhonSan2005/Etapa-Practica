@@ -12,7 +12,7 @@ require_once './controller/DashboardController.php';
 
 require_once './controller/MesasController.php';
 
-// require_once './controller/CategoryController.php';
+require_once './controller/CategoryController.php';
 // require_once './controller/CarritoController.php';
 // require_once './controller/DevolucionController.php';
 // require_once './controller/HistoryController.php';
@@ -55,6 +55,10 @@ $router->get('/history', [HistoryController::class, 'history']);
 $router->get('/formaPago', [VentaController::class, 'index']);
 
 
+$router->get('/admin/graficas', [DashboardController::class, 'graficas']);
+
+
+
 $router->get('/mesas', [MesasController::class, 'verMesas']); 
 $router->get('/mesas/detalle', [MesasController::class, 'detalleMesa']); 
 
@@ -78,6 +82,8 @@ $router->get('/profile', [ProfileController::class, 'index']);
 $router->post('/profile/verPerfil', [ProfileController::class, 'actualizar']); // Manejo de actualización (POST)
 $router->get('/profile/contraseña', [ProfileController::class, 'actualizarpassword']); 
 $router->post('/profile/contraseña', [ProfileController::class, 'actualizarpassword']); 
+$router->post('/mesas/agregarConsumo', [MesasController::class, 'agregarConsumo']);
+
 
 $router->post('/api/venta', [VentaController::class, 'vender']);
 
@@ -97,11 +103,24 @@ $router->post('/admin/agregarProductos', [ProductController::class, 'agregar']);
 $router->get('/admin/orders', [DashboardController::class, 'index']);
 
 $router->get('/admin/categories', [CategoryController::class, 'verCategorias']);
+
 $router->post('/admin/categories', [CategoryController::class, 'eliminarCategoriaAdmin']); 
 $router->get('/admin/agregarCategoria', [CategoryController::class, 'agregarCategoria']);
 $router->post('/admin/agregarCategoria', [CategoryController::class, 'agregarCategoria']); 
 $router->get('/admin/actualizarCategoria', [CategoryController::class, 'actualizarcategoria']);
 $router->post('/admin/actualizarCategoria', [CategoryController::class, 'actualizarcategoria']);
+
+$router->post('/admin/cuentasCerradas', [DashboardController::class, 'historialCuentas']);
+$router->get('/admin/cuentasCerradas', [DashboardController::class, 'historialCuentas']);
+$router->post('/mesas/cerrarCuenta', [MesasController::class, 'cerrarCuenta']);
+
+
+$router->get('/admin/verMesasAdmin', [MesasController::class, 'verMesasAdmin']);
+$router->get('/admin/agregarMesa', [MesasController::class, 'agregarMesa']);
+$router->post('/admin/agregarMesa', [MesasController::class, 'agregarMesa']);
+$router->get('/admin/actualizarMesa', [MesasController::class, 'actualizarMesa']);
+$router->post('/admin/actualizarMesa', [MesasController::class, 'actualizarMesa']);
+$router->get('/admin/eliminarMesa', [MesasController::class, 'eliminarMesaAdmin']);
 
 
 $router->get('/misCompras', [HistoryController::class, 'verCompras']);
@@ -118,6 +137,8 @@ $router->get('/terminos/terminosCondiciones', [ProfileController::class, 'verter
 
 $router->post('/profile/eliminar', [ProfileController::class, 'eliminarcuenta']);
 
+$router->post('/admin/agregarMesaAdmin', [MesasController::class, 'agregarMesa']);
+$router->get('/admin/agregarMesaAdmin', [MesasController::class, 'agregarMesa']);
 
 // Verificar y ejecutar la ruta actual
 $router->verifyRoutes();
